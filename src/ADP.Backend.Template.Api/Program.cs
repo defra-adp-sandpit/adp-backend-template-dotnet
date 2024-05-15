@@ -13,7 +13,7 @@ using OpenTelemetry.Trace;
 namespace ADP.Backend.Template.Api
 {
     [ExcludeFromCodeCoverage]
-    public class Program
+    public static class Program
     {
         public static void Main(string[] args)
         {
@@ -95,11 +95,6 @@ namespace ADP.Backend.Template.Api
                 builder.Services.AddOpenTelemetry().UseAzureMonitor(options =>
                 {
                     options.ConnectionString = appInsightsConfig.ConnectionString;
-
-                    //var cred = new ChainedTokenCredential(
-                    //        new AzureCliCredential(),
-                    //        new DefaultAzureCredential());
-                    //options.Credential = cred;
                     options.Credential = new DefaultAzureCredential();
                 });
                 if (!string.IsNullOrEmpty(appInsightsConfig.CloudRole))

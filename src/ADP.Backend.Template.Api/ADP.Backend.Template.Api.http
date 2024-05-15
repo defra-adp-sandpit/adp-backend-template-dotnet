@@ -1,0 +1,32 @@
+@ADP.Backend.Template.Api_HostAddress = https://localhost:7118
+
+GET {{ADP.Backend.Template.Api_HostAddress}}/api/demo
+
+###
+
+POST {{ADP.Backend.Template.Api_HostAddress}}/api/demo
+Content-Type: application/json
+
+{
+    "name":"item3"
+}
+
+###
+
+PATCH {{ADP.Backend.Template.Api_HostAddress}}/api/demo
+Content-Type: application/json
+
+{
+    "id":"1",
+    "name":"item3"
+}
+
+###
+
+GET {{ADP.Backend.Template.Api_HostAddress}}/api/demo/1
+
+###
+
+DELETE {{ADP.Backend.Template.Api_HostAddress}}/api/demo/3
+
+###

@@ -52,7 +52,7 @@ public class DemoController : ControllerBase
         }
         catch (ItemNotFoundException ex)
         {
-            _logger.LogError("Retrieving item threw exception: {0}", ex);
+            _logger.LogError(ex, "Retrieving item threw exception: {Message}", ex.Message);
             return NotFound();
         }
     }
@@ -92,7 +92,7 @@ public class DemoController : ControllerBase
         }
         catch (ItemNotFoundException ex)
         {
-            _logger.LogError("Updating item threw exception: {0}", ex);
+            _logger.LogError(ex, "Updating item threw exception: {Message}", ex.Message);
             return NotFound();
         }
     }
@@ -107,12 +107,12 @@ public class DemoController : ControllerBase
         try
         {
             _logger.LogInformation("PATCH method on Demo controller to update");
-            var result = await _itemService.DeleteItem(id);
+            await _itemService.DeleteItem(id);
             return NoContent();
         }
         catch (ItemNotFoundException ex)
         {
-            _logger.LogError("Deleting item threw exception: {0}", ex);
+            _logger.LogError(ex, "Deleting item threw exception: {Message}", ex.Message);
             return NotFound();
         }
     }
