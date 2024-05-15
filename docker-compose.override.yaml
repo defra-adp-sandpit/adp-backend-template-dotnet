@@ -1,0 +1,12 @@
+# This override file should be used when running this service in isolation
+# to provide required sibling services for local testing
+
+services:
+  adp-backend-template-dotnet:
+    build:
+      target: development
+    ports:
+      - "3007:3007"
+    volumes:
+      - ./src/ADP.Backend.Template.Api:/home/dotnet/src/ADP.Backend.Template.Api
+      - ./src/ADP.Backend.Template.Core:/home/dotnet/src/ADP.Backend.Template.Core

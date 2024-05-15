@@ -1,0 +1,16 @@
+services:
+  adp-backend-template-dotnet:
+    build:
+      target: development
+    image: adp-backend-template-dotnet-development
+    container_name: adp-backend-template-dotnet-test
+    user: root
+    entrypoint: sh -c "cd /home/dotnet && chown -R dotnet:dotnet . && su dotnet -c 'dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=./test-output/'"
+    volumes:
+      - ./ADP.Backend.Template.sln:/home/dotnet/ADP.Backend.Template.sln
+      - ./src/ADP.Backend.Template.Core:/home/dotnet/src/ADP.Backend.Template.Core
+      - ./test/ADP.Backend.Template.Core.Tests:/home/dotnet/test/ADP.Backend.Template.Core.Tests
+      - ./src/ADP.Backend.Template.Api:/home/dotnet/src/ADP.Backend.Template.Api
+      - ./test/ADP.Backend.Template.Api.Tests:/home/dotnet/test/ADP.Backend.Template.Api.Tests
+      - ./test/ADP.Backend.Template.Api.Tests/test-output:/home/dotnet/test/ADP.Backend.Template.Api.Tests/test-output
+      - ./test/ADP.Backend.Template.Core.Tests/test-output:/home/dotnet/test/ADP.Backend.Template.Core.Tests/test-output

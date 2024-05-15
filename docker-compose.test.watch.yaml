@@ -1,0 +1,24 @@
+services:
+  adp-backend-template-core-tests:
+    build:
+      target: development
+    image: adp-backend-template-core-tests-development
+    container_name: adp-backend-template-core-tests
+    user: root
+    entrypoint: sh -c "cd /home/dotnet && chown -R dotnet:dotnet . && su dotnet -c 'dotnet watch --project test/ADP.Backend.Template.Core.Tests/ADP.Backend.Template.Core.Tests.csproj test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=./test-output/'"
+    volumes:
+      - ./src/ADP.Backend.Template.Core:/home/dotnet/src/ADP.Backend.Template.Core
+      - ./test/ADP.Backend.Template.Core.Tests:/home/dotnet/test/ADP.Backend.Template.Core.Tests
+      - ./test-output:/home/dotnet/ADP.Backend.Template.Core.Tests/test-output
+
+  adp-backend-template-api-tests:
+    build:
+      target: development
+    image: adp-backend-template-api-tests-development
+    container_name: adp-backend-template-api-tests
+    user: root
+    entrypoint: sh -c "cd /home/dotnet && chown -R dotnet:dotnet . && su dotnet -c 'dotnet watch --project test/ADP.Backend.Template.Api.Tests/ADP.Backend.Template.Api.Tests.csproj test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=./test-output/'"
+    volumes:
+      - ./src/ADP.Backend.Template.Api:/home/dotnet/src/ADP.Backend.Template.Api
+      - ./test/ADP.Backend.Template.Api.Tests:/home/dotnet/test/ADP.Backend.Template.Api.Tests
+      - ./test-output:/home/dotnet/ADP.Backend.Template.Api.Tests/test-output
