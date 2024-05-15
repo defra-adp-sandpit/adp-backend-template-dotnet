@@ -48,7 +48,7 @@ public class ItemService : IItemService
 
     public Task<Item> GetItemById(int id)
     {
-        _logger.LogInformation("Getting item by id {id}", id);
+        _logger.LogInformation("Getting item by id {Id}", id);
         var item = items.Find(x => x.Id == id);
         if (item != null)
         {
@@ -59,7 +59,7 @@ public class ItemService : IItemService
 
     public Task<Item> UpdateItem(Item item)
     {
-        _logger.LogInformation("Updating item {id}", item.Id);
+        _logger.LogInformation("Updating item {Id}", item.Id);
         var existingItem = items.Find(x => x.Id == item.Id);
         if (existingItem != null)
         {
