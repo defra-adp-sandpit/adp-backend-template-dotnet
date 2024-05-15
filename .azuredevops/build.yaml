@@ -57,5 +57,5 @@ extends:
     appDeployConfig:
       filepath: "./appConfig"
       filetype: "yaml" 
-      variableGroups: 
-        - adp-backend-template-dotnet-<environment> 
+      # variableGroups: 
+      #   - adp-backend-template-dotnet-<environment> 
