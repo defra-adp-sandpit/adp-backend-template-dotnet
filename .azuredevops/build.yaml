@@ -36,23 +36,24 @@ resources:
       name: DEFRA/adp-pipeline-common
       endpoint: DEFRA
       type: github
-      ref: refs/heads/main
+      ref: rv/manifestpathtest
 
 extends:
   template: /pipelines/common-app-build.yaml@DEFRA-ADPPipelineCommon
   parameters:
+    programmeName: ""
     teamName: "adp-demo"
     serviceName: "adp-backend-template-dotnet"
     deployFromFeature: ${{ parameters.deployFromFeature }}
     appBuildConfig:
       appFrameworkType: "dotnet"
       frameworkVersion: "8.x"    
-      projectPath: "**/*.csproj"
-      testProjectPath: "**/*.Tests.csproj"
-      manifestPath: "./src/obj/ADP.Backend.Template.Api/project.assets.json"
+      projectPath: "**/*.csproj" #Try it with this if not provide only the main project path
+      testProjectPath: "**/*.Tests.csproj" 
+      manifestPath: "./src/obj/ADP.Backend.Template.Api/project.assets.json;./src/obj/ADP.Backend.Template.Core/project.assets.json"
       imageRepoName: "adp-backend-template-dotnet"
     appTestConfig:
-      testFilePath: "./docker-compose.test.yaml"
+      testFilePath: ""
     appDeployConfig:
       filepath: "./appConfig"
       filetype: "yaml" 
