@@ -48,7 +48,7 @@ extends:
     appBuildConfig:
       appFrameworkType: "dotnet"
       frameworkVersion: "8.x"    
-      projectPath: "**/*.csproj" #Try it with this if not provide only the main project path
+      projectPath: "./src/ADP.Backend.Template.Api/ADP.Backend.Template.Api.csproj"
       testProjectPath: "**/*.Tests.csproj" 
       manifestPath: "./src/obj/ADP.Backend.Template.Api/project.assets.json;./src/obj/ADP.Backend.Template.Core/project.assets.json"
       imageRepoName: "adp-backend-template-dotnet"
