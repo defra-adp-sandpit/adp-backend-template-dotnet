@@ -17,7 +17,7 @@ The following environment variables are required by the application container. V
 | Name                                    | Description                        | Required | Default   | Valid | Notes                                                                 |
 | ----                                    | -----------                        | -------- | -------   | ----- | -----                                                                 |
 | ApplicationInsights__ConnectionString   | App Insights key                   | no       |           |       | will log to Azure Application Insights if set                         |
-| ApplicationInsights__CloudRole          | Role used for filtering metrics    | no       |           |       | Set to `adp-backend-template-dotnet-local` in docker compose files    |
+| ApplicationInsights__CloudRole          | Role used for filtering metrics    | no       |           |       | Set to `${{ values.service_name }}-local` in docker compose files    |
 
 ## Test structure
 
@@ -40,12 +40,12 @@ scripts/test -w
 ### docker-compose.test.yaml
 This file runs all tests and exits the container. If any tests fails the error will be output. Use the docker-compose `-p` flag to avoid conflicting with a running app instance:
 
-`docker-compose -p adp-backend-template-dotnet-test -f docker-compose.yaml -f docker-compose.test.yaml up`
+`docker-compose -p ${{ values.service_name }}-test -f docker-compose.yaml -f docker-compose.test.yaml up`
 
 ### docker-compose.test.watch.yaml
 This file is intended to be an override file for `docker-compose.test.yaml`.  The container will not exit following test run, instead it will watch for code changes in the application or tests and rerun on occurrence.
 
-`docker-compose -p adp-backend-template-dotnet-test -f docker-compose.yaml -f docker-compose.test.watch.yaml up`
+`docker-compose -p ${{ values.service_name }}-test -f docker-compose.yaml -f docker-compose.test.watch.yaml up`
 
 ## Running the application
 The application is designed to run in containerised environments, using Docker Compose in development and Kubernetes in production.
@@ -99,11 +99,11 @@ If the application uses `keyvault references` in `appConfig.env.yaml`, please ma
 
 ```
 variableGroups:
-    - adp-backend-template-dotnet-snd1
-    - adp-backend-template-dotnet-snd2
-    - adp-backend-template-dotnet-snd3
+    - ${{ values.service_name }}-snd1
+    - ${{ values.service_name }}-snd2
+    - ${{ values.service_name }}-snd3
 variables:
-    - adp-backend-template-dotnet-APPLICATION-SECRET
+    - ${{ values.service_name }}-APPLICATION-SECRET
 ```
 
 ## Licence

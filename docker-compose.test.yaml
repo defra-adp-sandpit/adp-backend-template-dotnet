@@ -1,16 +1,16 @@
 services:
-  adp-backend-template-dotnet:
+  ${{ values.service_name }}:
     build:
       target: development
-    image: adp-backend-template-dotnet-development
-    container_name: adp-backend-template-dotnet-test
+    image: ${{ values.service_name }}-development
+    container_name: ${{ values.service_name }}-test
     user: root
     entrypoint: sh -c "cd /home/dotnet && chown -R dotnet:dotnet . && su dotnet -c 'dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=./test-output/'"
     volumes:
-      - ./ADP.Backend.Template.sln:/home/dotnet/ADP.Backend.Template.sln
-      - ./src/ADP.Backend.Template.Core:/home/dotnet/src/ADP.Backend.Template.Core
-      - ./test/ADP.Backend.Template.Core.Tests:/home/dotnet/test/ADP.Backend.Template.Core.Tests
-      - ./src/ADP.Backend.Template.Api:/home/dotnet/src/ADP.Backend.Template.Api
-      - ./test/ADP.Backend.Template.Api.Tests:/home/dotnet/test/ADP.Backend.Template.Api.Tests
-      - ./test/ADP.Backend.Template.Api.Tests/test-output:/home/dotnet/test/ADP.Backend.Template.Api.Tests/test-output
-      - ./test/ADP.Backend.Template.Core.Tests/test-output:/home/dotnet/test/ADP.Backend.Template.Core.Tests/test-output
+      - ./${{ values.dotnet_solution_name }}.sln:/home/dotnet/${{ values.dotnet_solution_name }}.sln
+      - ./src/${{ values.dotnet_solution_name }}.Core:/home/dotnet/src/${{ values.dotnet_solution_name }}.Core
+      - ./test/${{ values.dotnet_solution_name }}.Core.Tests:/home/dotnet/test/${{ values.dotnet_solution_name }}.Core.Tests
+      - ./src/${{ values.dotnet_solution_name }}.Api:/home/dotnet/src/${{ values.dotnet_solution_name }}.Api
+      - ./test/${{ values.dotnet_solution_name }}.Api.Tests:/home/dotnet/test/${{ values.dotnet_solution_name }}.Api.Tests
+      - ./test/${{ values.dotnet_solution_name }}.Api.Tests/test-output:/home/dotnet/test/${{ values.dotnet_solution_name }}.Api.Tests/test-output
+      - ./test/${{ values.dotnet_solution_name }}.Core.Tests/test-output:/home/dotnet/test/${{ values.dotnet_solution_name }}.Core.Tests/test-output

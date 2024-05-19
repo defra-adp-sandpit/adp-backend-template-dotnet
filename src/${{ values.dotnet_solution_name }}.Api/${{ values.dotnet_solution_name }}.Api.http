@@ -1,0 +1,32 @@
+@${{ values.dotnet_solution_name }}.Api_HostAddress = https://localhost:7118
+
+GET {{${{ values.dotnet_solution_name }}.Api_HostAddress}}/api/demo
+
+###
+
+POST {{${{ values.dotnet_solution_name }}.Api_HostAddress}}/api/demo
+Content-Type: application/json
+
+{
+    "name":"item3"
+}
+
+###
+
+PATCH {{${{ values.dotnet_solution_name }}.Api_HostAddress}}/api/demo
+Content-Type: application/json
+
+{
+    "id":"1",
+    "name":"item3"
+}
+
+###
+
+GET {{${{ values.dotnet_solution_name }}.Api_HostAddress}}/api/demo/1
+
+###
+
+DELETE {{${{ values.dotnet_solution_name }}.Api_HostAddress}}/api/demo/3
+
+###

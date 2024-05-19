@@ -1,10 +1,10 @@
 services:
-  adp-backend-template-dotnet:
+  ${{ values.service_name }}:
     build:
       context: .
       target: production
-    image: adp-backend-template-dotnet
-    container_name: adp-backend-template-dotnet
+    image: ${{ values.service_name }}
+    container_name: ${{ values.service_name }}
     environment:
       AppInsights__ConnectionString: ${APPINSIGHTS_CONNECTIONSTRING}
-      AppInsights__CloudRole: adp-backend-template-dotnet-local
+      AppInsights__CloudRole: ${{ values.service_name }}-local

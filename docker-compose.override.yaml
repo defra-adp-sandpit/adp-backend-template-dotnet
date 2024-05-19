@@ -2,11 +2,11 @@
 # to provide required sibling services for local testing
 
 services:
-  adp-backend-template-dotnet:
+  ${{ values.service_name }}:
     build:
       target: development
     ports:
       - "3007:3007"
     volumes:
-      - ./src/ADP.Backend.Template.Api:/home/dotnet/src/ADP.Backend.Template.Api
-      - ./src/ADP.Backend.Template.Core:/home/dotnet/src/ADP.Backend.Template.Core
+      - ./src/${{ values.dotnet_solution_name }}.Api:/home/dotnet/src/${{ values.dotnet_solution_name }}.Api
+      - ./src/${{ values.dotnet_solution_name }}.Core:/home/dotnet/src/${{ values.dotnet_solution_name }}.Core

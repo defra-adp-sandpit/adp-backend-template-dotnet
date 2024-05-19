@@ -1,3 +1,0 @@
-{{- include "adp-helm-library.cluster-ip-service" (list . "adp-backend-template-dotnet.cluster-ip-service") -}}
-{{- define "adp-backend-template-dotnet.cluster-ip-service" -}}
-{{- end -}}

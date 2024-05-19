@@ -5,11 +5,11 @@ services:
     image: adp-backend-template-core-tests-development
     container_name: adp-backend-template-core-tests
     user: root
-    entrypoint: sh -c "cd /home/dotnet && chown -R dotnet:dotnet . && su dotnet -c 'dotnet watch --project test/ADP.Backend.Template.Core.Tests/ADP.Backend.Template.Core.Tests.csproj test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=./test-output/'"
+    entrypoint: sh -c "cd /home/dotnet && chown -R dotnet:dotnet . && su dotnet -c 'dotnet watch --project test/${{ values.dotnet_solution_name }}.Core.Tests/${{ values.dotnet_solution_name }}.Core.Tests.csproj test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=./test-output/'"
     volumes:
-      - ./src/ADP.Backend.Template.Core:/home/dotnet/src/ADP.Backend.Template.Core
-      - ./test/ADP.Backend.Template.Core.Tests:/home/dotnet/test/ADP.Backend.Template.Core.Tests
-      - ./test-output:/home/dotnet/ADP.Backend.Template.Core.Tests/test-output
+      - ./src/${{ values.dotnet_solution_name }}.Core:/home/dotnet/src/${{ values.dotnet_solution_name }}.Core
+      - ./test/${{ values.dotnet_solution_name }}.Core.Tests:/home/dotnet/test/${{ values.dotnet_solution_name }}.Core.Tests
+      - ./test-output:/home/dotnet/${{ values.dotnet_solution_name }}.Core.Tests/test-output
 
   adp-backend-template-api-tests:
     build:
@@ -17,8 +17,8 @@ services:
     image: adp-backend-template-api-tests-development
     container_name: adp-backend-template-api-tests
     user: root
-    entrypoint: sh -c "cd /home/dotnet && chown -R dotnet:dotnet . && su dotnet -c 'dotnet watch --project test/ADP.Backend.Template.Api.Tests/ADP.Backend.Template.Api.Tests.csproj test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=./test-output/'"
+    entrypoint: sh -c "cd /home/dotnet && chown -R dotnet:dotnet . && su dotnet -c 'dotnet watch --project test/${{ values.dotnet_solution_name }}.Api.Tests/${{ values.dotnet_solution_name }}.Api.Tests.csproj test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=./test-output/'"
     volumes:
-      - ./src/ADP.Backend.Template.Api:/home/dotnet/src/ADP.Backend.Template.Api
-      - ./test/ADP.Backend.Template.Api.Tests:/home/dotnet/test/ADP.Backend.Template.Api.Tests
-      - ./test-output:/home/dotnet/ADP.Backend.Template.Api.Tests/test-output
+      - ./src/${{ values.dotnet_solution_name }}.Api:/home/dotnet/src/${{ values.dotnet_solution_name }}.Api
+      - ./test/${{ values.dotnet_solution_name }}.Api.Tests:/home/dotnet/test/${{ values.dotnet_solution_name }}.Api.Tests
+      - ./test-output:/home/dotnet/${{ values.dotnet_solution_name }}.Api.Tests/test-output

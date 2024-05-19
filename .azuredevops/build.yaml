@@ -42,20 +42,20 @@ extends:
   template: /pipelines/common-app-build.yaml@DEFRA-ADPPipelineCommon
   parameters:
     programmeName: ""
-    teamName: "adp-demo"
-    serviceName: "adp-backend-template-dotnet"
+    teamName: "${{ values.project_name }}"
+    serviceName: "${{ values.service_name }}"
     deployFromFeature: ${{ parameters.deployFromFeature }}
     appBuildConfig:
       appFrameworkType: "dotnet"
       frameworkVersion: "8.x"    
-      projectPath: "./src/ADP.Backend.Template.Api/ADP.Backend.Template.Api.csproj"
+      projectPath: "./src/${{ values.dotnet_solution_name }}.Api/${{ values.dotnet_solution_name }}.Api.csproj"
       testProjectPath: "**/*.Tests.csproj" 
-      manifestPath: "./src/obj/ADP.Backend.Template.Api/project.assets.json;./src/obj/ADP.Backend.Template.Core/project.assets.json"
-      imageRepoName: "adp-backend-template-dotnet"
+      manifestPath: "./src/obj/${{ values.dotnet_solution_name }}.Api/project.assets.json;./src/obj/${{ values.dotnet_solution_name }}.Core/project.assets.json"
+      imageRepoName: "${{ values.service_name }}"
     appTestConfig:
       testFilePath: ""
     appDeployConfig:
       filepath: "./appConfig"
       filetype: "yaml" 
       # variableGroups: 
-      #   - adp-backend-template-dotnet-<environment> 
+      #   - ${{ values.service_name }}-<environment> 
