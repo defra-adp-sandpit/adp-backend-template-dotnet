@@ -1,11 +1,10 @@
-using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
+
 using NSubstitute;
 
 namespace ADP.Backend.Template.Api.Tests;
 
-[TestFixture]
 public class GlobalExceptionHandlerTests
 {
     private readonly ILogger<GlobalExceptionHandler> _mockLogger;
@@ -17,7 +16,7 @@ public class GlobalExceptionHandlerTests
         _sut = new GlobalExceptionHandler(_mockLogger);
     }
 
-    [Test]
+    [Fact]
     public async Task TryHandleAsync_Returns_True()
     {
         //Arrange

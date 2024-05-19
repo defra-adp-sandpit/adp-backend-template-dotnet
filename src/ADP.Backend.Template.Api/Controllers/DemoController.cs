@@ -2,8 +2,11 @@
 using ADP.Backend.Template.Core.Entities;
 using ADP.Backend.Template.Core.Exceptions;
 using ADP.Backend.Template.Core.Interfaces;
+
 using Asp.Versioning;
-using Mapster;
+
+using AutoMapper;
+
 using Microsoft.AspNetCore.Mvc;
 
 namespace ADP.Backend.Template.Api.Controllers;
@@ -15,22 +18,24 @@ public class DemoController : ControllerBase
 {
     private readonly ILogger<DemoController> _logger;
     private readonly IItemService _itemService;
-    public DemoController(IItemService itemService, ILogger<DemoController> logger)
+    private readonly IMapper _mapper;
+    public DemoController(IItemService itemService, IMapper mapper, ILogger<DemoController> logger)
     {
         _itemService = itemService;
         _logger = logger;
+        _mapper = mapper;
     }
 
     /// <summary>
     /// GET method
     /// </summary>
     /// <returns>ActionResult</returns>
-    [HttpGet("", Name = "Get")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<IActionResult> Get()
+    [HttpGet("", Name = "GetAllItems")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<Item>))]
+    public async Task<IActionResult> GetAllItemsAsync()
     {
         _logger.LogInformation("GET method on Demo controller to getAll");
-        var result = await _itemService.GetAllItems();
+        var result = await _itemService.GetAllItemsAsync();
         return Ok(result);
     }
 
@@ -39,15 +44,15 @@ public class DemoController : ControllerBase
     /// </summary>
     /// <param name="id">Id of the object to be retrieved</param>
     /// <returns>ActionResult</returns>
-    [HttpGet("{id}", Name = "GetById")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
+    [HttpGet("{id}", Name = "GetItemById")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Item))]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> Get(int id)
+    public async Task<IActionResult> GetItemByIdAsync(int id)
     {
         try
         {
             _logger.LogInformation("GET method on Demo controller to getById");
-            var result = await _itemService.GetItemById(id);
+            var result = await _itemService.GetItemByIdAsync(id);
             return Ok(result);
         }
         catch (ItemNotFoundException ex)
@@ -62,13 +67,13 @@ public class DemoController : ControllerBase
     /// </summary>
     /// <param name="item">item to be created</param>
     /// <returns>Item created</returns>
-    [HttpPost("", Name = "Create")]
-    [ProducesResponseType(StatusCodes.Status201Created)]
-    public async Task<IActionResult> Post([FromBody] ItemRequest item)
+    [HttpPost("", Name = "CreateItem")]
+    [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(Item))]
+    public async Task<IActionResult> CreateItemAsync([FromBody] ItemRequest item)
     {
         _logger.LogInformation("POST method on Demo controller to create");
-        var itemEntity = item.Adapt<Item>();
-        var result = await _itemService.CreateItem(itemEntity);
+        var itemEntity = _mapper.Map<Item>(item);
+        var result = await _itemService.CreateItemAsync(itemEntity);
         return new ObjectResult(result)
         {
             StatusCode = StatusCodes.Status201Created
@@ -80,14 +85,16 @@ public class DemoController : ControllerBase
     /// </summary>
     /// <param name="item">item to be created</param>
     /// <returns>Item created</returns>
-    [HttpPatch("", Name = "Update")]
-    public async Task<IActionResult> Patch([FromBody] ItemRequest item)
+    [HttpPatch("", Name = "UpdateItem")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Item))]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> UpdateItemAsync([FromBody] ItemRequest item)
     {
         try
         {
             _logger.LogInformation("PATCH method on Demo controller to update");
-            var itemEntity = item.Adapt<Item>();
-            var result = await _itemService.UpdateItem(itemEntity);
+            var itemEntity = _mapper.Map<Item>(item);
+            var result = await _itemService.UpdateItemAsync(itemEntity);
             return Ok(result);
         }
         catch (ItemNotFoundException ex)
@@ -101,13 +108,15 @@ public class DemoController : ControllerBase
     /// DELETE to delete an existing item
     /// </summary>
     /// <param name="id">Id of the item to be deleted</param>
-    [HttpDelete("{id}")]
-    public async Task<IActionResult> Delete(int id)
+    [HttpDelete("{id}", Name = "DeleteItem")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> DeleteItemAsync(int id)
     {
         try
         {
             _logger.LogInformation("PATCH method on Demo controller to update");
-            await _itemService.DeleteItem(id);
+            await _itemService.DeleteItemAsync(id);
             return NoContent();
         }
         catch (ItemNotFoundException ex)

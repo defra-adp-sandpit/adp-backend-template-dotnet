@@ -1,118 +1,117 @@
 using ADP.Backend.Template.Core.Entities;
 using ADP.Backend.Template.Core.Exceptions;
 using ADP.Backend.Template.Core.Services;
+
 using AutoFixture;
-using FluentAssertions;
+
 using Microsoft.Extensions.Logging;
+
 using NSubstitute;
 
 namespace ADP.Backend.Template.Core.Tests.ServicesTests;
 
-[TestFixture]
 public class ItemServiceTests
 {
     private readonly Fixture _fixture;
     private readonly ILogger<ItemService> _mockLogger;
-    private ItemService _sut;
+    private readonly ItemService _sut;
 
     public ItemServiceTests()
     {
         _fixture = new Fixture();
         _mockLogger = Substitute.For<ILogger<ItemService>>();
-    }
-
-    [SetUp]
-    public void SetUp()
-    {
         _sut = new ItemService(_mockLogger);
     }
 
-    [Test]
-    public async Task GetAllItems_ReturnsAllItems()
+    [Fact]
+    public async Task GetAllItemsAsync_Returns_AllItems()
     {
         // Act
-        var result = await _sut.GetAllItems();
+        var result = await _sut.GetAllItemsAsync();
         // Assert
         result.Should().BeOfType<List<Item>>();
         result.Should().HaveCountGreaterThan(0);
     }
 
-    [Test]
-    public async Task GetById_Returns_Ok()
+    [Fact]
+    public async Task GetByIdAsync_Returns_Item()
     {
         //Arrange
         var item = _fixture.Create<Item>();
-        var createdItem = await _sut.CreateItem(item);
+        var createdItem = await _sut.CreateItemAsync(item);
         // Act
-        var result = await _sut.GetItemById(createdItem.Id);
+        var result = await _sut.GetItemByIdAsync(createdItem.Id);
         // Assert
         result.Should().BeOfType<Item>();
         result.Should().NotBeNull();
     }
 
-    [Test]
-    public void GetById_Returns_NotFound()
+    [Fact]
+    public async void GetByIdAsync_Throws_ItemNotFoundException()
     {
         //Arrange
         var id = 0;
         // Act & Assert
-        Assert.ThrowsAsync<ItemNotFoundException>(async () => await _sut.GetItemById(id));
+        var test = () => _sut.GetItemByIdAsync(id);
+        await test.Should().ThrowAsync<ItemNotFoundException>();
     }
 
-    [Test]
-    public async Task Create_Returns_CreatedObject()
+    [Fact]
+    public async Task CreateItemAsync_Returns_CreatedItem()
     {
         // Arrange
         var item = _fixture.Create<Item>();
         // Act
-        var result = await _sut.CreateItem(item);
+        var result = await _sut.CreateItemAsync(item);
         // Assert
         result.Should().BeOfType<Item>();
         result.Should().NotBeNull();
     }
 
-    [Test]
-    public async Task Update_Returns_UpdatedObject()
+    [Fact]
+    public async Task UpdateItemAsync_Returns_UpdatedItem()
     {
         // Arrange
         var item = _fixture.Create<Item>();
         item.Id = 1;
         // Act
-        var result = await _sut.UpdateItem(item);
+        var result = await _sut.UpdateItemAsync(item);
         // Assert
         result.Should().BeOfType<Item>();
         result.Should().NotBeNull();
     }
 
-    [Test]
-    public void Update_Returns_NotFound()
+    [Fact]
+    public async Task UpdateItemAsync_Throws_ItemNotFoundException()
     {
         // Arrange
         var item = _fixture.Create<Item>();
         item.Id = 0;
         // Act & Assert
-        Assert.ThrowsAsync<ItemNotFoundException>(async () => await _sut.UpdateItem(item));
+        var test = () => _sut.UpdateItemAsync(item);
+        await test.Should().ThrowAsync<ItemNotFoundException>();
     }
 
-    [Test]
-    public async Task Delete_Returns_DeletedObject()
+    [Fact]
+    public async Task DeleteItemAsync_Returns_DeletedItem()
     {
         // Arrange
         var item = _fixture.Create<Item>();
-        var createdItem = await _sut.CreateItem(item);
+        var createdItem = await _sut.CreateItemAsync(item);
         // Act
-        var result = await _sut.DeleteItem(createdItem.Id);
+        var result = await _sut.DeleteItemAsync(createdItem.Id);
         // Assert
         result.Should().BeOfType<Item>();
         result.Should().NotBeNull();
     }
 
-    [Test]
-    public void Delete_Returns_NotFound()
+    [Fact]
+    public async Task DeleteItemAsync_Throws_ItemNotFoundException()
     {
         // Arrange
         var id = 0;
         // Act & Assert
-        Assert.ThrowsAsync<ItemNotFoundException>(async () => await _sut.DeleteItem(id));
+        var test = () => _sut.DeleteItemAsync(id);
+        await test.Should().ThrowAsync<ItemNotFoundException>();
     }
 }

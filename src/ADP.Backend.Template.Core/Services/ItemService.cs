@@ -5,7 +5,6 @@ using Microsoft.Extensions.Logging;
 
 namespace ADP.Backend.Template.Core.Services;
 
-
 public class ItemService : IItemService
 {
     private readonly ILogger<ItemService> _logger;
@@ -19,7 +18,7 @@ public class ItemService : IItemService
         _logger = logger;
     }
 
-    public Task<Item> CreateItem(Item item)
+    public Task<Item> CreateItemAsync(Item item)
     {
         _logger.LogInformation("Creating item");
         var id = items.Max(x => x.Id) + 1;
@@ -28,7 +27,7 @@ public class ItemService : IItemService
         return Task.FromResult(item);
     }
 
-    public Task<Item> DeleteItem(int id)
+    public Task<Item> DeleteItemAsync(int id)
     {
         _logger.LogInformation("Deleting item");
         var item = items.Find(x => x.Id == id);
@@ -40,13 +39,13 @@ public class ItemService : IItemService
         throw new ItemNotFoundException("Item not found");
     }
 
-    public Task<List<Item>> GetAllItems()
+    public Task<List<Item>> GetAllItemsAsync()
     {
         _logger.LogInformation("Getting all items");
         return Task.FromResult(items);
     }
 
-    public Task<Item> GetItemById(int id)
+    public Task<Item> GetItemByIdAsync(int id)
     {
         _logger.LogInformation("Getting item by id {Id}", id);
         var item = items.Find(x => x.Id == id);
@@ -57,7 +56,7 @@ public class ItemService : IItemService
         throw new ItemNotFoundException("Item not found");
     }
 
-    public Task<Item> UpdateItem(Item item)
+    public Task<Item> UpdateItemAsync(Item item)
     {
         _logger.LogInformation("Updating item {Id}", item.Id);
         var existingItem = items.Find(x => x.Id == item.Id);
