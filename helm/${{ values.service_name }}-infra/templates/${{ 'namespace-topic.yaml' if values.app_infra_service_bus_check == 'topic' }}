@@ -1,0 +1,3 @@
+{% if values.app_infra_service_bus_check == 'topic' %}
+{{- include "adp-aso-helm-library.namespace-topic" . -}}
+{% endif %}

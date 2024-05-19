@@ -1,17 +1,20 @@
+# These are populated when your service is created via the ADP Portal scaffolder. Do not change these, as they are abstracted from your service and are mandatory. They are for your reference here.
 name: ${{ values.service_name }}
 namespace: ${{ values.project_name }}
 image: ${{ values.service_name }}
 
+# You may add further labels to identify the service or what your component does.
 labels: {}
 
-deployment:
-  priorityClassName: low
-  minReadySeconds: 5
+# Here you can define your Priority classes, min/max replicables etc. Empty block does the HELM Library defaults.
+deployment: {}
 
+# These may be changed. See here: https://github.com/DEFRA/adp-helm-library?tab=readme-ov-file#container-template
 container:
   port: 3007
   memCpuTier: M
 
+# These may be changed. See here: https://github.com/DEFRA/adp-helm-library?tab=readme-ov-file#container-template
 readinessProbe:
   path: /healthy
   port: 3007
@@ -19,6 +22,7 @@ readinessProbe:
   periodSeconds: 10
   failureThreshold: 3
 
+# These may be changed. See here: https://github.com/DEFRA/adp-helm-library?tab=readme-ov-file#container-template
 livenessProbe:
   path: /healthz
   port: 3007
@@ -26,6 +30,7 @@ livenessProbe:
   periodSeconds: 10
   failureThreshold: 3
 
+# These may be changed. See here: https://github.com/DEFRA/adp-helm-library?tab=readme-ov-file#container-template
 volumeMounts:
   mountPath: /var/www/
   name: core-app-dir

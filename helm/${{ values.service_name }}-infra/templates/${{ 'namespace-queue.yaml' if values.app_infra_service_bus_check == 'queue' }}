@@ -1,0 +1,3 @@
+{% if values.app_infra_service_bus_check == 'queue' %}
+{{- include "adp-aso-helm-library.namespace-queue" . -}}
+{% endif %}
