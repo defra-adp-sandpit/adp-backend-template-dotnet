@@ -1,29 +1,27 @@
 ﻿using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ADP.Backend.Template.Api
+namespace ADP.Backend.Template.Api;
+public class GlobalExceptionHandler : IExceptionHandler
 {
-    public class GlobalExceptionHandler : IExceptionHandler
+    private readonly ILogger<GlobalExceptionHandler> _logger;
+
+    public GlobalExceptionHandler(ILogger<GlobalExceptionHandler> logger)
     {
-        private readonly ILogger<GlobalExceptionHandler> _logger;
+        _logger = logger;
+    }
 
-        public GlobalExceptionHandler(ILogger<GlobalExceptionHandler> logger)
+    public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken)
+    {
+        _logger.LogError(exception, "Exception occured: {Message}", exception.Message);
+        var problemDetails = new ProblemDetails
         {
-            _logger = logger;
-        }
+            Status = StatusCodes.Status500InternalServerError,
+            Title = "Internal Server Error"
+        };
 
-        public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken)
-        {
-            _logger.LogError(exception, "Exception occured: {Message}", exception.Message);
-            var problemDetails = new ProblemDetails
-            {
-                Status = StatusCodes.Status500InternalServerError,
-                Title = "Internal Server Error"
-            };
-
-            httpContext.Response.StatusCode = problemDetails.Status.Value;
-            await httpContext.Response.WriteAsJsonAsync(problemDetails, cancellationToken);
-            return true;
-        }
+        httpContext.Response.StatusCode = problemDetails.Status.Value;
+        await httpContext.Response.WriteAsJsonAsync(problemDetails, cancellationToken);
+        return true;
     }
 }

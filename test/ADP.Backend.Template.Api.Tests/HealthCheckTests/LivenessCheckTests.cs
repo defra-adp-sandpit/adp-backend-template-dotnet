@@ -1,15 +1,14 @@
 using ADP.Backend.Template.Api.HealthChecks;
-using FluentAssertions;
+
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 
 namespace ADP.Backend.Template.Api.Tests.HealthChecksTests;
 
-[TestFixture]
-public class ReadinessCheckTests
+public class LivenessCheckTests
 {
-    private readonly ReadinessCheck _sut = new();
+    private readonly LivenessCheck _sut = new();
 
-    [Test]
+    [Fact]
     public async Task CheckHealthAsync_Returns_Healthy()
     {
         //Arrange
