@@ -1,5 +1,5 @@
-# ADP Backend Template Dotnet
-ADP Backend Template Dotnet service.
+# ${{ values.service_name }}
+${{ values.service_name }} Dotnet service.
 
 ## Prerequisites
 - Docker

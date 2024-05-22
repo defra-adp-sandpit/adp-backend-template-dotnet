@@ -1,9 +1,9 @@
 services:
-  adp-backend-template-core-tests:
+  ${{ values.service_name }}-core-tests:
     build:
       target: development
-    image: adp-backend-template-core-tests-development
-    container_name: adp-backend-template-core-tests
+    image: ${{ values.service_name }}-core-tests-development
+    container_name: ${{ values.service_name }}-core-tests
     user: root
     entrypoint: sh -c "cd /home/dotnet && chown -R dotnet:dotnet . && su dotnet -c 'dotnet watch --project test/${{ values.dotnet_solution_name }}.Core.Tests/${{ values.dotnet_solution_name }}.Core.Tests.csproj test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=./test-output/'"
     volumes:
@@ -11,11 +11,11 @@ services:
       - ./test/${{ values.dotnet_solution_name }}.Core.Tests:/home/dotnet/test/${{ values.dotnet_solution_name }}.Core.Tests
       - ./test-output:/home/dotnet/${{ values.dotnet_solution_name }}.Core.Tests/test-output
 
-  adp-backend-template-api-tests:
+  ${{ values.service_name }}-api-tests:
     build:
       target: development
-    image: adp-backend-template-api-tests-development
-    container_name: adp-backend-template-api-tests
+    image: ${{ values.service_name }}-api-tests-development
+    container_name: ${{ values.service_name }}-api-tests
     user: root
     entrypoint: sh -c "cd /home/dotnet && chown -R dotnet:dotnet . && su dotnet -c 'dotnet watch --project test/${{ values.dotnet_solution_name }}.Api.Tests/${{ values.dotnet_solution_name }}.Api.Tests.csproj test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=./test-output/'"
     volumes:
