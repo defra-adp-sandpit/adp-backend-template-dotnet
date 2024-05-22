@@ -44,7 +44,8 @@ extends:
     programmeName: ""
     teamName: "${{ values.project_name }}"
     serviceName: "${{ values.service_name }}"
-    deployFromFeature: ${{ parameters.deployFromFeature }}
+    deployFromFeature: {% raw %}${{ parameters.deployFromFeature }}{% endraw %}
+    deployConfigOnly: {% raw %}${{ parameters.deployConfigOnly }}{% endraw %}
     appBuildConfig:
       appFrameworkType: "dotnet"
       frameworkVersion: "8.x"    
