@@ -6,5 +6,5 @@ services:
     image: ${{ values.service_name }}
     container_name: ${{ values.service_name }}
     environment:
-      AppInsights__ConnectionString: ${APPINSIGHTS_CONNECTIONSTRING}
-      AppInsights__CloudRole: ${{ values.service_name }}-local
+      APPINSIGHTS_CONNECTIONSTRING: ${APPINSIGHTS_CONNECTIONSTRING}
+      APPINSIGHTS_CLOUDROLE: ${{ values.service_name }}-local
