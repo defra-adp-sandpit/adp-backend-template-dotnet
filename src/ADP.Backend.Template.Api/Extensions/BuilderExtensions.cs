@@ -19,7 +19,10 @@ public static class BuilderExtensions
             builder.Services.AddOpenTelemetry().UseAzureMonitor(options =>
             {
                 options.ConnectionString = appInsightsConfig.ConnectionString;
-                options.Credential = new DefaultAzureCredential();
+                if (builder.Environment.IsProduction())
+                {
+                    options.Credential = new DefaultAzureCredential();
+                }
             });
             if (!string.IsNullOrEmpty(appInsightsConfig.CloudRole))
             {

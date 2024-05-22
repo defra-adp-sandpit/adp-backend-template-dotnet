@@ -62,16 +62,13 @@ public static class Program
                .AddCheck<LivenessCheck>("live")
                .AddCheck<ReadinessCheck>("ready");
 
-        var appInsightsConfig = builder.Configuration.GetSection("AppInsights").Get<AppInsightsConfig>();
+        var appInsightsConfig = new AppInsightsConfig
+        {
+            CloudRole = builder.Configuration.GetValue<string>("APPINSIGHTS_CLOUDROLE") ?? "",
+            ConnectionString = builder.Configuration.GetValue<string>("APPINSIGHTS_CONNECTIONSTRING") ?? ""
+        };
 
-        if (appInsightsConfig != null)
-        {
-            builder.ConfigureOpenTelemetry(appInsightsConfig);
-        }
-        else
-        {
-            Console.WriteLine("App Insights Not Configured!");
-        }
+        builder.ConfigureOpenTelemetry(appInsightsConfig);
 
         builder.Services.AddControllers();
         builder.Services.AddEndpointsApiExplorer();

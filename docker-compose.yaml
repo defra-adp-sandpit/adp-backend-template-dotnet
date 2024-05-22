@@ -6,5 +6,5 @@ services:
     image: adp-backend-template-dotnet
     container_name: adp-backend-template-dotnet
     environment:
-      AppInsights__ConnectionString: ${APPINSIGHTS_CONNECTIONSTRING}
-      AppInsights__CloudRole: adp-backend-template-dotnet-local
+      APPINSIGHTS_CONNECTIONSTRING: ${APPINSIGHTS_CONNECTIONSTRING}
+      APPINSIGHTS_CLOUDROLE: adp-backend-template-dotnet-local
